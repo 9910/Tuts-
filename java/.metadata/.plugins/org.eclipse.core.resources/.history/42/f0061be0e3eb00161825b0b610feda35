@@ -1,0 +1,372 @@
+package crtanje;
+
+import java.awt.BorderLayout;
+import geometrija.*;
+import java.awt.EventQueue;
+import java.awt.Frame;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Stack;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JToggleButton;
+
+public class NaslovnaCrtanje extends JFrame {
+
+	private dlgModifikujTacku mt = new dlgModifikujTacku();
+	private dlgModifikujLiniju ml = new dlgModifikujLiniju();
+	private dlgModifikujKvadrat mkv = new dlgModifikujKvadrat();
+	private dlgModifikujPravougaonik mp = new dlgModifikujPravougaonik();
+	private dlgModifikujKrug mkr = new dlgModifikujKrug();
+	private JPanel contentPane;
+	private JButton btnBojaIvice;
+	private int brojKlikova;
+	private Tacka pocetnaLinija;
+	private JButton btnBojaUnutrasnjosti;
+	private JToggleButton tglbtnSelektuj;
+	private PomocniPanel pnlCentralni = new PomocniPanel();
+	private JButton btnIzadji;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					NaslovnaCrtanje frame = new NaslovnaCrtanje();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public NaslovnaCrtanje() {
+		setTitle("IT25-2015 Dejan Vuckovic");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(170, 170, 800, 500);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+
+		JPanel pnlDugmad = new JPanel();
+		contentPane.add(pnlDugmad, BorderLayout.SOUTH);
+		GridBagLayout gbl_pnlDugmad = new GridBagLayout();
+		gbl_pnlDugmad.columnWidths = new int[] { 129, 75, 71, 59, 0, 0, 0, 0, 0 };
+		gbl_pnlDugmad.rowHeights = new int[] { 23, 0 };
+		gbl_pnlDugmad.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_pnlDugmad.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+		pnlDugmad.setLayout(gbl_pnlDugmad);
+
+		JComboBox cbxOblik = new JComboBox();
+		cbxOblik.setModel(
+		new DefaultComboBoxModel(new String[] { "Tacka", "Linija", "Krug", "Kvadrat", "Pravougaonik" }));
+		GridBagConstraints gbc_cbxOblik = new GridBagConstraints();
+		gbc_cbxOblik.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbxOblik.insets = new Insets(0, 0, 0, 5);
+		gbc_cbxOblik.gridx = 0;
+		gbc_cbxOblik.gridy = 0;
+		pnlDugmad.add(cbxOblik, gbc_cbxOblik);
+
+		JButton btnModifikuj = new JButton("Modifikuj");
+		btnModifikuj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(Object i : pnlCentralni.stek){
+					if(i instanceof Tacka){
+						i = (Tacka)i;
+						if(((Tacka) i).isSelektovan()){
+							mt.boja = ((Tacka) i).getColor();
+							mt.x = ((Tacka) i).getX();
+							mt.y = ((Tacka) i).getY();
+							mt.setVisible(true);
+							if (mt.potvrda){
+								((Tacka) i).setColor(mt.boja);
+							    ((Tacka) i).setX(mt.x);
+							    ((Tacka) i).setY(mt.y);
+							    mt.potvrda = false;
+							}
+							mt.stop = true;
+						}
+					}
+					else if(i instanceof Linija){
+						i = (Linija)i;
+						if(((Linija) i).isSelektovan()){
+							ml.boja = ((Linija) i).getColor();
+							ml.x1 = ((Linija) i).gettPocetna().getX();
+							ml.y1 = ((Linija) i).gettPocetna().getY();
+							ml.x2 = ((Linija) i).gettKrajnja().getX();
+							ml.y2 = ((Linija) i).gettKrajnja().getY();
+							ml.setVisible(true);
+							if (ml.potvrda){
+								((Linija) i).setColor(ml.boja);
+							    ((Linija) i).settPocetna(new Tacka(ml.x1, ml.y1));
+							    ((Linija) i).settKrajnja(new Tacka(ml.x2, ml.y2));
+							    mt.potvrda = false;
+							}
+							ml.stop = true;
+							
+						}
+					}
+					
+					else if(i instanceof Kvadrat){
+						i = (Kvadrat)i;
+						if(((Kvadrat) i).isSelektovan()){
+							mkv.bojaIvice = ((Kvadrat) i).getColor();
+							mkv.bojaUnutrasnjosti = ((Kvadrat) i).getColorUnutrasnjosti();
+							mkv.x = ((Kvadrat) i).getGoreLevo().getX();
+							mkv.y = ((Kvadrat) i).getGoreLevo().getY();
+							mkv.duzina = ((Kvadrat) i).getDuzinaStranice();
+							mkv.setVisible(true);
+							if (mkv.potvrda){
+								((Kvadrat) i).setColor(mkv.bojaIvice);
+							    ((Kvadrat) i).setColorUnutrasnjosti(mkv.bojaUnutrasnjosti);
+							    ((Kvadrat) i).setGoreLevo(new Tacka(mkv.x, mkv.y));
+							    ((Kvadrat) i).setDuzinaStranice(mkv.duzina);
+							    mt.potvrda = false;
+							}
+							
+							mkv.stop = true;
+						}
+					}
+					
+					else if(i instanceof Pravougaonik){
+						i = (Pravougaonik)i;
+						if(((Pravougaonik) i).isSelektovan()){
+							mp.bojaIvice = ((Pravougaonik) i).getColor();
+							mp.bojaUnutrasnjosti = ((Pravougaonik) i).getColorUnutrasnjosti();
+							mp.x = ((Kvadrat) i).getGoreLevo().getX();
+							mp.y = ((Kvadrat) i).getGoreLevo().getY();
+							mp.sirina = ((Pravougaonik) i).getDuzinaStranice();
+							mp.visina = ((Pravougaonik) i).getVisina();
+							mp.setVisible(true);
+							if(mp.potvrda){
+								((Pravougaonik) i).setColor(mp.bojaIvice);
+								((Pravougaonik) i).setColorUnutrasnjosti(mp.bojaUnutrasnjosti);
+								((Pravougaonik) i).setGoreLevo(new Tacka(mp.x,mp.y));
+								((Pravougaonik) i).setVisina(mp.visina);
+								((Pravougaonik) i).setDuzinaStranice(mp.sirina);
+								mp.potvrda = false;
+							}
+							mp.stop = true;
+						}
+					}
+					
+					else if(i instanceof Krug){
+						i = (Krug)i;
+						if(((Krug) i).isSelektovan()){
+							mkr.bojaIvice = ((Krug) i).getColor();
+							mkr.bojaUnutrasnjosti = ((Krug) i).getColorUnutrasnjosti();
+							mkr.x = ((Krug) i).getCentar().getX();
+							mkr.y = ((Krug) i).getCentar().getY();
+							mkr.poluprecnik = ((Krug) i).getR();
+							mkr.setVisible(true);
+							if(mkr.potvrda){
+							  ((Krug) i).setColor(mkr.bojaIvice);
+							  ((Krug) i).setColorUnutrasnjosti(mkr.bojaUnutrasnjosti);
+							  ((Krug) i).setCentar(new Tacka(mkr.x, mkr.y));
+							  ((Krug) i).setR(mkr.poluprecnik);
+							  mkr.potvrda = false;
+							}
+							mkr.stop = true;
+						}
+					}
+				}
+			}
+		});
+		GridBagConstraints gbc_btnModifikuj = new GridBagConstraints();
+		gbc_btnModifikuj.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnModifikuj.insets = new Insets(0, 0, 0, 5);
+		gbc_btnModifikuj.gridx = 1;
+		gbc_btnModifikuj.gridy = 0;
+		pnlDugmad.add(btnModifikuj, gbc_btnModifikuj);
+		
+		tglbtnSelektuj = new JToggleButton("Selektuj");
+		tglbtnSelektuj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!tglbtnSelektuj.isSelected())
+				pnlCentralni.deselektuj();
+				
+			}
+		});
+		GridBagConstraints gbc_tglbtnSelektuj = new GridBagConstraints();
+		gbc_tglbtnSelektuj.insets = new Insets(0, 0, 0, 5);
+		gbc_tglbtnSelektuj.gridx = 2;
+		gbc_tglbtnSelektuj.gridy = 0;
+		pnlDugmad.add(tglbtnSelektuj, gbc_tglbtnSelektuj);
+
+		JButton btnUkloni = new JButton("Ukloni");
+		btnUkloni.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+		pnlCentralni.brisanjeElementa();
+				
+			}
+		});
+		GridBagConstraints gbc_btnUkloni = new GridBagConstraints();
+		gbc_btnUkloni.insets = new Insets(0, 0, 0, 5);
+		gbc_btnUkloni.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnUkloni.gridx = 3;
+		gbc_btnUkloni.gridy = 0;
+		pnlDugmad.add(btnUkloni, gbc_btnUkloni);
+
+		btnBojaIvice = new JButton("Boja ivice");
+		btnBojaIvice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnBojaIvice.setBackground(OdaberiBoju(btnBojaIvice.getBackground()));
+			}
+		});
+		btnBojaIvice.setForeground(new Color(255, 255, 255));
+		btnBojaIvice.setBackground(new Color(0, 0, 0));
+		GridBagConstraints gbc_btnBojaIvice = new GridBagConstraints();
+		gbc_btnBojaIvice.insets = new Insets(0, 0, 0, 5);
+		gbc_btnBojaIvice.gridx = 4;
+		gbc_btnBojaIvice.gridy = 0;
+		pnlDugmad.add(btnBojaIvice, gbc_btnBojaIvice);
+
+		btnBojaUnutrasnjosti = new JButton("Boja Unutra\u0161njosti");
+		btnBojaUnutrasnjosti.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnBojaUnutrasnjosti.setBackground(OdaberiBoju(btnBojaUnutrasnjosti.getBackground()));
+			}
+		});
+		btnBojaUnutrasnjosti.setForeground(new Color(0, 0, 0));
+		btnBojaUnutrasnjosti.setBackground(new Color(255, 255, 255));
+		GridBagConstraints gbc_btnBojaUnutrasnjosti = new GridBagConstraints();
+		gbc_btnBojaUnutrasnjosti.insets = new Insets(0, 0, 0, 5);
+		gbc_btnBojaUnutrasnjosti.gridx = 5;
+		gbc_btnBojaUnutrasnjosti.gridy = 0;
+		pnlDugmad.add(btnBojaUnutrasnjosti, gbc_btnBojaUnutrasnjosti);
+		
+		btnIzadji = new JButton("Iza\u0111i");
+		btnIzadji.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+			}
+		});
+		btnIzadji.setForeground(Color.RED);
+		GridBagConstraints gbc_btnIzadji = new GridBagConstraints();
+		gbc_btnIzadji.insets = new Insets(0, 0, 0, 5);
+		gbc_btnIzadji.gridx = 6;
+		gbc_btnIzadji.gridy = 0;
+		pnlDugmad.add(btnIzadji, gbc_btnIzadji);
+
+		
+		pnlCentralni.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				if(!tglbtnSelektuj.isSelected())
+				{
+				switch (cbxOblik.getSelectedItem().toString()) {
+
+				case "Tacka": {
+					Tacka privremena = new Tacka(arg0.getX(), arg0.getY(), btnBojaIvice.getBackground());
+					pnlCentralni.setOblikZaCrtanje(privremena);
+					pnlCentralni.repaint();
+				
+					break;
+
+				}
+				case "Linija": {
+					if (brojKlikova == 0) {
+						pocetnaLinija = new Tacka(arg0.getX(), arg0.getY());
+						brojKlikova++;
+
+					} else if (brojKlikova == 1) {
+						Linija privremena = new Linija(pocetnaLinija, new Tacka(arg0.getX(), arg0.getY()),
+								btnBojaIvice.getBackground());
+						pnlCentralni.setOblikZaCrtanje(privremena);
+						pnlCentralni.repaint();
+						brojKlikova = 0;
+					}
+					break;
+				}
+				case "Krug": {
+
+					dlgKrug poluprecnikKruga = new dlgKrug();
+					poluprecnikKruga.setVisible(true);
+					if (poluprecnikKruga.isKlik()) {
+						Krug privremeni = new Krug(new Tacka(arg0.getX(), arg0.getY()),
+								poluprecnikKruga.getTxtPoluprecnik(), btnBojaIvice.getBackground(), btnBojaUnutrasnjosti.getBackground());
+						
+						pnlCentralni.setOblikZaCrtanje(privremeni);
+						pnlCentralni.repaint();
+
+					}
+					break;
+
+				}
+				case "Kvadrat": {
+
+					dlgKvadrat duzinaStraniceKv = new dlgKvadrat();
+					duzinaStraniceKv.setVisible(true);
+					if (duzinaStraniceKv.isKlik()) {
+						Kvadrat privremeni = new Kvadrat(new Tacka(arg0.getX(), arg0.getY()),
+								duzinaStraniceKv.getlblUnesiteDuzinuStranice(), btnBojaIvice.getBackground(),btnBojaUnutrasnjosti.getBackground());
+					pnlCentralni.setOblikZaCrtanje(privremeni);
+					pnlCentralni.repaint();
+						
+					}
+					break;
+				}
+				
+				case "Pravougaonik": {
+					
+					dlgPravougaonik vrednostiPravougaonika = new dlgPravougaonik();
+					vrednostiPravougaonika.setVisible(true);
+					if (vrednostiPravougaonika.isKlik()) {
+						Pravougaonik privremeni = new Pravougaonik(new Tacka(arg0.getX(), arg0.getY()),
+							vrednostiPravougaonika.getlblUnesiteDuzinuStranice(),vrednostiPravougaonika.getLblUnesiteVisinuStranice(), btnBojaIvice.getBackground(), btnBojaUnutrasnjosti.getBackground());
+						pnlCentralni.setOblikZaCrtanje(privremeni);
+						pnlCentralni.repaint();
+						
+									}
+					break;
+					
+					
+				}
+
+				}
+				}
+				else
+				{
+					
+				pnlCentralni.setCursorX(arg0.getX());
+				pnlCentralni.setCursorY(arg0.getY());
+				pnlCentralni.selektujOblik();
+					
+					
+					
+					
+				}
+			}
+		});
+		contentPane.add(pnlCentralni, BorderLayout.CENTER);
+	}
+
+	public Color OdaberiBoju(Color prethodnaBoja) {
+
+		Color novaBoja = JColorChooser.showDialog(null, "Odaberite boju ivice", Color.BLACK);
+		if (novaBoja != null)
+			return novaBoja;
+		else
+			return prethodnaBoja;
+	}
+
+}

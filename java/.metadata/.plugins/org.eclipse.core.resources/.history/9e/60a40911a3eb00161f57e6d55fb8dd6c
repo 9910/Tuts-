@@ -1,0 +1,26 @@
+package wbCrtanje;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import geometrija.Kvadrat;
+import geometrija.Linija;
+import geometrija.Tacka;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ArrayList<Object> lista = new ArrayList<>();
+		Iterator<Object> itr = lista.iterator();
+		Kvadrat kv = new Kvadrat(new Tacka(10, 10), 100);
+		Linija l = new Linija(new Tacka(10, 10), new Tacka(20, 20));
+		
+		lista.add(kv);
+		lista.add(l);
+		
+		while(itr.hasNext())
+			System.out.println(itr.next());
+	}
+
+}

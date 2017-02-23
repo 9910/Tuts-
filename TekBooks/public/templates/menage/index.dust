@@ -1,0 +1,6 @@
+{>"layouts/menage" /}
+
+{<body}
+  <h2>Menager</h2>
+  <p>This is menager area</p>
+{/body}
