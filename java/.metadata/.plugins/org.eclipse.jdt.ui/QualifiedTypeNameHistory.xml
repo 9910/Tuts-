@@ -23,4 +23,8 @@
 <fullyQualifiedTypeName name="geometrija.Krug"/>
 <fullyQualifiedTypeName name="geometrija.Tacka"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
+<fullyQualifiedTypeName name="drone.StandardDrone"/>
+<fullyQualifiedTypeName name="org.junit.Test"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="drone.Drone"/>
 </qualifiedTypeNameHistroy>
