@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/IT 45-2015 Karapandzic Marko/src/wbCrtanje/Test.java"/>
+<listEntry value="/IT 45-2015 Karapandzic Marko 2/src/wbCrtanje/Test.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="wbCrtanje.Test"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="IT 45-2015 Karapandzic Marko"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="IT 45-2015 Karapandzic Marko 2"/>
 </launchConfiguration>

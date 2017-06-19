@@ -1,4 +1,8 @@
 eclipse.preferences.version=1
+org.eclipse.jdt.core.classpathVariable.ECLIPSE_HOME=C\:/projects/java/.metadata/.plugins/com.sap.core.tools.eclipse.server.version/Java Web
+org.eclipse.jdt.core.classpathVariable.JRE_LIB=C\:/Users/Marko/Downloads/sapjvm_8/jre/lib/rt.jar
+org.eclipse.jdt.core.classpathVariable.JRE_SRC=C\:/Users/Marko/Downloads/sapjvm_8/src.zip
+org.eclipse.jdt.core.classpathVariable.JRE_SRCROOT=
 org.eclipse.jdt.core.codeComplete.visibilityCheck=enabled
 org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.8

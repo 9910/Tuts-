@@ -2,15 +2,26 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Dialog" key="selection"/>
+		<item value="panelCrtanje" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
-		<item value="true" key="wrap"/>
+		<item value="false" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="dialog"/>
+			<item value="panelCrtaj"/>
+			<item value="Selektovan"/>
+			<item value="(boundaries[0] - 1)"/>
+			<item value="(boundaries[1] - 1)"/>
+			<item value="(boundaries[2] - 1)"/>
+			<item value="gettSrednjeDesno"/>
+			<item value="wrong value"/>
+			<item value="sof"/>
 		</list>
 		<list key="replacehistory">
+			<item value="panelCrtanje"/>
+			<item value="(boundaries[2] - 10)"/>
+			<item value="gettSredinaDesno"/>
+			<item value=""/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

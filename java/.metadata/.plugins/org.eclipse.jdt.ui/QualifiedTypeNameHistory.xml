@@ -21,10 +21,10 @@
 <fullyQualifiedTypeName name="geometrija.Pravougaonik"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="geometrija.Krug"/>
-<fullyQualifiedTypeName name="geometrija.Tacka"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
 <fullyQualifiedTypeName name="drone.StandardDrone"/>
 <fullyQualifiedTypeName name="org.junit.Test"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="drone.Drone"/>
+<fullyQualifiedTypeName name="geometrija.Tacka"/>
 </qualifiedTypeNameHistroy>
